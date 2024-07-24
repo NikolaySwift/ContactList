@@ -7,23 +7,22 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+final class TabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        tabBar.isOpaque = true
+        
+        let personList = Person.getPersonList()
+        viewControllers?.forEach { viewController in
+            if let navigationVC = viewController as? UINavigationController {
+                if let contactListVC = navigationVC.topViewController as? ContactListViewController {
+                    contactListVC.personList = personList
+                } else if let personListVC = navigationVC.topViewController as? PersonListViewController {
+                    personListVC.personList = personList
+                }
+            }
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
